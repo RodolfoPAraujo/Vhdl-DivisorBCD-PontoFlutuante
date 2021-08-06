@@ -1,0 +1,29 @@
+LIBRARY ieee;
+USE ieee.std_logic_1164.all;
+USE ieee.numeric_std.all;
+
+ENTITY IEEEtoB is
+	PORT (A:IN unsigned(62 DOWNTO 0);
+		B: OUT unsigned(15 DOWNTO 0));
+END ENTITY;
+
+ARCHITECTURE comportamnento OF IEEEtoB IS
+	
+	COMPONENT shiftr IS
+		PORT (A:IN unsigned(10 DOWNTO 0);--posição do 1º '1'
+			B:IN unsigned(15 DOWNTO 0);
+			C:OUT unsigned(15 DOWNTO 0));
+	END COMPONENT;
+	
+	
+	SIGNAL AUX1,AUX2: unsigned(10 DOWNTO 0);
+	SIGNAL AUX3,AUX4: unsigned(15 DOWNTO 0);
+	BEGIN
+	AUX1<="01111110111";
+	AUX2<=(A(62 DOWNTO 52))-AUX1; 
+	AUX3<=  TO_UNSIGNED(0,16) when A(62 DOWNTO 52) = 0 OR A(62 DOWNTO 52) = "11111111111" ELSE a(51 DOWNTO 36);
+	bc0: shiftr PORT MAP (AUX2,AUX3,B);
+	--b<="0000000000000000" when A(62 DOWNTO 52) = 0 ELSE
+	--"1111111111111111" WHEN A(62 DOWNTO 52) = "11111111111" ELSE AUX4;
+	
+END ARCHITECTURE;
